@@ -4,6 +4,8 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+env:
+  FLEET_SERVER_VERSION: 7.13.0
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -31,8 +33,9 @@ jobs:
         with:
           push: false
           platforms: linux/arm64
-          tags: fgierlinger/fleet-server:7.13.0
+          tags: fgierlinger/fleet-server:${{ env.FLEET_SERVER_VERSION }}
           file: Dockerfile
+          build-args: FLEET_SERVER_VERSION=${{ env.FLEET_SERVER_VERSION }}
       - 
         name: Build fleet-server for arm64
         if: github.event_name == 'push'
@@ -40,5 +43,6 @@ jobs:
         with:
           push: true
           platforms: linux/arm64
-          tags: fgierlinger/fleet-server:7.13.0
+          tags: fgierlinger/fleet-server:${{ env.FLEET_SERVER_VERSION }}
           file: Dockerfile
+          build-args: FLEET_SERVER_VERSION=${{ env.FLEET_SERVER_VERSION }}
